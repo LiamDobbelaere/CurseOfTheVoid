@@ -20,7 +20,8 @@ public class Director : MonoBehaviour
         new BellsDirectorStep(),
         new ViolinDirectorStep(),
         new OutroDirectorStep(),
-        new RunDirectorStep()
+        new RunDirectorStep(),
+        new ThanksDirectorStep()
     };
 
     private AudioSource audioNarration;
@@ -371,14 +372,21 @@ public class OutroDirectorStep : DirectorStep
     }
 }
 
-public class RunDirectorStep : DirectorStep
+public class RunDirectorStep : DirectorStep, GameEventListener
 {
+    private int successfulVaults;
+    private bool playedEnding;
+
     public override void Enter()
     {
         director.player.allowRight = true;
         director.player.enableRun = true;
+     
+        successfulVaults = 0;
+        playedEnding = false;
 
-        // TODO: play song here
+        director.gameEvent.RegisterListener(this);
+
         for (int i = 1; i <= 16; i++)
         {
             GameObject.Instantiate(
@@ -388,12 +396,46 @@ public class RunDirectorStep : DirectorStep
         }
     }
 
+    public void OnGameEvent(string name)
+    {
+        if (name == "vault_success")
+        {
+            successfulVaults++;
+        }
+    }
+
+    public override void Update()
+    {
+        if (successfulVaults >= 2 && !playedEnding)
+        {
+            director.PlayNarration("ending");
+            playedEnding = true;
+        }
+
+        if (playedEnding && successfulVaults == 16)
+        {
+            director.NextDirectorStep();
+        }
+    }
+}
+
+public class ThanksDirectorStep : DirectorStep
+{
+    public override void Enter()
+    {
+        director.player.allowRight = false;
+        director.player.allowLeft = false;
+        director.player.allowUp = false;
+        director.player.allowDown = false;
+
+        director.PlayNarration("thanks");
+    }
+
     public override void Update()
     {
 
     }
 }
-
 
 
 public class DirectorStep

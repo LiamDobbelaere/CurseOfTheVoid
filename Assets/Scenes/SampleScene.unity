@@ -326,6 +326,10 @@ MonoBehaviour:
     clip: {fileID: 8300000, guid: 69059d023828c8141a10942249b2482d, type: 3}
   - name: outro
     clip: {fileID: 8300000, guid: 28ad99e0252df3a498853e3ea093aa90, type: 3}
+  - name: ending
+    clip: {fileID: 8300000, guid: 1fdff86a65d4d9544bcc4a398960dfca, type: 3}
+  - name: thanks
+    clip: {fileID: 8300000, guid: 74c1b89b8a05dd142b98276c77f0bfe8, type: 3}
   spawnablePrefabs:
   - name: sound_choice
     prefab: {fileID: 5483764529945178780, guid: 96c6c21038f751e45ad31a0e083fe464,
