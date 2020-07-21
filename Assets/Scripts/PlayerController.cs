@@ -87,6 +87,11 @@ public class PlayerController : MonoBehaviour, GameEventListener
             this.gameEvent.EmitGameEvent("vault");
         }
 
+        if (Input.GetKey("escape"))
+        {
+            Application.Quit();
+        }
+
         this.transform.position = position;
 
         if (moved)
