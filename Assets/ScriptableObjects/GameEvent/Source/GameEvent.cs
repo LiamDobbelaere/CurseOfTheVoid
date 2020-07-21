@@ -15,7 +15,8 @@ public class GameEvent : ScriptableObject, ISerializationCallbackReceiver
 
 	public void EmitGameEvent(string name)
 	{
-		foreach (GameEventListener listener in listeners)
+		List<GameEventListener> safeCopy = new List<GameEventListener>(listeners);
+		foreach (GameEventListener listener in safeCopy)
 		{
             listener.OnGameEvent(name);
 		}

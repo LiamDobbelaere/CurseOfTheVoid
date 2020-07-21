@@ -16,7 +16,10 @@ public class Director : MonoBehaviour
         new IntroDirectorStep(),
         new OkayStopDirectorStep(),
         new SoundChoiceDirectorStep(),
-        new PostChoiceDirectorStep()
+        new PostChoiceDirectorStep(),
+        new BellsDirectorStep(),
+        new ViolinDirectorStep(),
+        new OutroDirectorStep()
     };
 
     private AudioSource audioNarration;
@@ -238,6 +241,135 @@ public class PostChoiceDirectorStep : DirectorStep
         }
     }
 }
+
+public class BellsDirectorStep : DirectorStep, GameEventListener
+{
+    private GameObject voidObject;
+    private float aliveTimer;
+
+    public override void Enter()
+    {
+        director.player.allowRight = true;
+        director.player.allowLeft = false;
+        director.player.enableRun = true;
+
+        director.gameEvent.RegisterListener(this);
+
+        voidObject = GameObject.Instantiate(
+            director.GetSpawnable("void"),
+            director.player.transform.position - new Vector3(200f, 0f, 0f),
+            Quaternion.identity);
+
+        director.PlayNarration("run_go_now");
+    }
+
+    public override void Update()
+    {
+        aliveTimer += Time.deltaTime;
+
+        if (aliveTimer > 25f)
+        {
+            director.NextDirectorStep();
+        }
+    }
+
+    public override void Exit()
+    {
+        director.gameEvent.UnregisterListener(this);
+
+        GameObject.Destroy(voidObject);
+    }
+
+    public void OnGameEvent(string name)
+    {
+        director.NextDirectorStep();
+    }
+}
+
+public class ViolinDirectorStep : DirectorStep, GameEventListener
+{
+    private GameObject violinObject;
+    private bool allowMovement;
+
+    public override void Enter()
+    {
+        director.player.allowRight = false;
+        director.player.allowLeft = false;
+        director.player.allowUp = false;
+        director.player.allowDown = false;
+        director.player.enableRun = false;
+
+        allowMovement = false;
+
+        director.gameEvent.RegisterListener(this);
+
+        float xPos = 30f;
+        float yPos = -30f;
+        if (Random.Range(0, 2) == 0)
+        {
+            xPos = -xPos;
+        }
+
+        if (Random.Range(0, 2) == 0)
+        {
+            yPos = -yPos;
+        }
+
+        violinObject = GameObject.Instantiate(
+            director.GetSpawnable("violin"),
+            director.player.transform.position - new Vector3(xPos, yPos, 0f),
+            Quaternion.identity);
+
+        director.PlayNarration("violin");
+    }
+
+    public override void Update()
+    {
+        if (!allowMovement && director.IsNarrationFinished())
+        {
+            director.player.allowRight = true;
+            director.player.allowLeft = true;
+            director.player.allowUp = true;
+            director.player.allowDown = true;
+
+            allowMovement = true;
+        }
+    }
+
+    public override void Exit()
+    {
+        director.gameEvent.UnregisterListener(this);
+
+        GameObject.Destroy(violinObject);
+    }
+
+    public void OnGameEvent(string name)
+    {
+        director.NextDirectorStep();
+    }
+}
+
+public class OutroDirectorStep : DirectorStep
+{
+    public override void Enter()
+    {
+        director.player.allowRight = false;
+        director.player.allowLeft = false;
+        director.player.allowUp = false;
+        director.player.allowDown = false;
+        
+        director.PlayNarration("outro");
+    }
+
+    public override void Update()
+    {
+        if (director.IsNarrationFinished())
+        {
+            director.NextDirectorStep();
+        }
+    }
+}
+
 
 
 public class DirectorStep
