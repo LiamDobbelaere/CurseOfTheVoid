@@ -344,7 +344,7 @@ MonoBehaviour:
     prefab: {fileID: 4308163013472549189, guid: f20580723aa89494d8bf4ab8496f1829,
       type: 3}
   player: {fileID: 765009475}
-  currentDirectorStepIndex: 7
+  currentDirectorStepIndex: -1
 --- !u!1 &765009474
 GameObject:
   m_ObjectHideFlags: 0

@@ -412,7 +412,7 @@ public class RunDirectorStep : DirectorStep, GameEventListener
             playedEnding = true;
         }
 
-        if (playedEnding && successfulVaults == 16)
+        if (playedEnding && director.IsNarrationFinished() && successfulVaults == 16)
         {
             director.NextDirectorStep();
         }
