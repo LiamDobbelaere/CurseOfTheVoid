@@ -14,7 +14,7 @@ public class PlayerController : MonoBehaviour
     private float currentSpeed = 0f;
     private float baseSpeed = 0.5f;
     private float acceleration = 0.05f;
-    private float maxSpeed = 5f;
+    private float maxSpeed = 4f;
     private float maxSpeedRunning = 10f;
     private float actualMaxSpeed = 0f;
 

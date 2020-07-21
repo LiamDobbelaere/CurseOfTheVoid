@@ -304,9 +304,28 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 75f2881b8ac1e704a90613b6f1385ae2, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  gameEvent: {fileID: 11400000, guid: 8218ee0fe81bc6946ac6cf0b8caa8b8f, type: 2}
   narrationClips:
   - name: entry
     clip: {fileID: 8300000, guid: 6b1233e50580a6241a3299c900091390, type: 3}
+  - name: intro
+    clip: {fileID: 8300000, guid: 9820a6aeef57d2d409a994c0d4d9c271, type: 3}
+  - name: okay_stop
+    clip: {fileID: 8300000, guid: d23a6f700abf6494aa7e2d60ca5c2f1e, type: 3}
+  - name: choose_sound
+    clip: {fileID: 8300000, guid: 999b6051ab708044d890fe1a53640f13, type: 3}
+  - name: touch_major
+    clip: {fileID: 8300000, guid: 7bf3fff56ff76b046b84acd2c18d0985, type: 3}
+  - name: touch_minor
+    clip: {fileID: 8300000, guid: b935f572d7c4fd047aa5eded7b8c5077, type: 3}
+  - name: post_choice
+    clip: {fileID: 8300000, guid: 66192f5f83c66ac41882b1d4cc943f1d, type: 3}
+  spawnablePrefabs:
+  - name: sound_choice
+    prefab: {fileID: 5483764529945178780, guid: 96c6c21038f751e45ad31a0e083fe464,
+      type: 3}
+  player: {fileID: 765009475}
+  currentDirectorStepIndex: -1
 --- !u!1 &765009474
 GameObject:
   m_ObjectHideFlags: 0
@@ -318,6 +337,8 @@ GameObject:
   - component: {fileID: 765009476}
   - component: {fileID: 765009475}
   - component: {fileID: 765009477}
+  - component: {fileID: 765009478}
+  - component: {fileID: 765009479}
   m_Layer: 0
   m_Name: Player
   m_TagString: Untagged
@@ -337,10 +358,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 790d586859451964fb9827b8a7c820a6, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  allowRight: 1
-  allowLeft: 1
-  allowUp: 1
-  allowDown: 1
+  allowRight: 0
+  allowLeft: 0
+  allowUp: 0
+  allowDown: 0
   enableRun: 0
   footsteps:
   - {fileID: 8300000, guid: ab89d0d97d1b02d4eaf6a72f431965cb, type: 3}
@@ -378,7 +399,7 @@ AudioSource:
   OutputAudioMixerGroup: {fileID: 0}
   m_audioClip: {fileID: 0}
   m_PlayOnAwake: 0
-  m_Volume: 1
+  m_Volume: 0.5
   m_Pitch: 1
   Loop: 0
   Mute: 0
@@ -462,6 +483,43 @@ AudioSource:
     m_PreInfinity: 2
     m_PostInfinity: 2
     m_RotationOrder: 4
+--- !u!58 &765009478
+CircleCollider2D:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 765009474}
+  m_Enabled: 1
+  m_Density: 1
+  m_Material: {fileID: 0}
+  m_IsTrigger: 0
+  m_UsedByEffector: 0
+  m_UsedByComposite: 0
+  m_Offset: {x: 0, y: 0}
+  serializedVersion: 2
+  m_Radius: 1
+--- !u!50 &765009479
+Rigidbody2D:
+  serializedVersion: 4
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 765009474}
+  m_BodyType: 1
+  m_Simulated: 1
+  m_UseFullKinematicContacts: 0
+  m_UseAutoMass: 0
+  m_Mass: 1
+  m_LinearDrag: 0
+  m_AngularDrag: 0.05
+  m_GravityScale: 1
+  m_Material: {fileID: 0}
+  m_Interpolate: 0
+  m_SleepingMode: 1
+  m_CollisionDetection: 0
+  m_Constraints: 0
 --- !u!1 &1990118219
 GameObject:
   m_ObjectHideFlags: 0
@@ -475,7 +533,7 @@ GameObject:
   m_Layer: 0
   m_Name: Void
   m_TagString: Untagged
-  m_Icon: {fileID: 5132851093641282708, guid: 0000000000000000d000000000000000, type: 0}
+  m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
   m_IsActive: 0
