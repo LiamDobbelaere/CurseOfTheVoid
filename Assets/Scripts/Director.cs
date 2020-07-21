@@ -19,7 +19,8 @@ public class Director : MonoBehaviour
         new PostChoiceDirectorStep(),
         new BellsDirectorStep(),
         new ViolinDirectorStep(),
-        new OutroDirectorStep()
+        new OutroDirectorStep(),
+        new RunDirectorStep()
     };
 
     private AudioSource audioNarration;
@@ -367,6 +368,29 @@ public class OutroDirectorStep : DirectorStep
         {
             director.NextDirectorStep();
         }
+    }
+}
+
+public class RunDirectorStep : DirectorStep
+{
+    public override void Enter()
+    {
+        director.player.allowRight = true;
+        director.player.enableRun = true;
+
+        // TODO: play song here
+        for (int i = 1; i <= 16; i++)
+        {
+            GameObject.Instantiate(
+                director.GetSpawnable("vaultable"),
+                director.player.transform.position + new Vector3(i * 50f, -15f, 0f),
+                Quaternion.identity);
+        }
+    }
+
+    public override void Update()
+    {
+
     }
 }
 

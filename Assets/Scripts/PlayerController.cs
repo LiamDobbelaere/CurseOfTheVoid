@@ -2,14 +2,17 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-public class PlayerController : MonoBehaviour
+public class PlayerController : MonoBehaviour, GameEventListener
 {
+    public GameEvent gameEvent;
+
     public bool allowRight = true;
     public bool allowLeft = true;
     public bool allowUp = true;
     public bool allowDown = true;
     public bool enableRun = true;
     public List<AudioClip> footsteps;
+    public AudioClip vaultSound;
 
     private float currentSpeed = 0f;
     private float baseSpeed = 0.5f;
@@ -23,6 +26,14 @@ public class PlayerController : MonoBehaviour
 
     private AudioSource audioSource;
 
+    public void OnGameEvent(string name)
+    {
+        if (name == "vault_success")
+        {
+            this.audioSource.PlayOneShot(vaultSound);
+        }
+    }
+
     // Start is called before the first frame update
     void Start()
     {
@@ -30,6 +41,7 @@ public class PlayerController : MonoBehaviour
 
         this.audioSource = this.GetComponent<AudioSource>();
         this.footstepTimer = this.footstepTimerMax;
+        this.gameEvent.RegisterListener(this);
     }
 
     // Update is called once per frame
@@ -68,6 +80,11 @@ public class PlayerController : MonoBehaviour
         {
             position.y -= Time.deltaTime * currentSpeed;
             moved = true;
+        }
+
+        if (Input.GetButtonDown("Jump"))
+        {
+            this.gameEvent.EmitGameEvent("vault");
         }
 
         this.transform.position = position;
